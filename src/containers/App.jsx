@@ -11,22 +11,37 @@ import '../assets/styles/App.scss';
 const API = 'http://localhost:3000/initialState';
 
 const App = () => {
-  const [videos, categories] = useInitialState(API);
+  const initialState = useInitialState(API);
   return(
     <div className="App">
       <Header />
       <Search />
 
-      {categories.map((category) => (
-        videos[category].length > 0 && (
-          <Categories title={category}>
-            <Carousel>
-              {videos[category].map((item) => (
-                <CarouselItem key={item.id} {...item} />
-              ))}
-            </Carousel>
-          </Categories>
-        )))}
+      {initialState.mylist.length > 0 &&
+        <Categories title="Mi Lista">
+          <Carousel>
+          {initialState.mylist.map(item => 
+            <CarouselItem key={item.id} {...item}/>
+          )}
+          </Carousel>
+        </Categories>
+      }
+      
+      <Categories title="Tendencias">
+        <Carousel>
+          {initialState.trends.map(item => 
+            <CarouselItem key={item.id} {...item}/>
+          )}
+        </Carousel>
+      </Categories>
+
+      <Categories title="Originales de PlatziVideo">
+        <Carousel>
+        {initialState.originals.map(item => 
+          <CarouselItem key={item.id} {...item}/>
+        )}  
+        </Carousel>
+      </Categories>
       
       <Footer/>
     </div>
